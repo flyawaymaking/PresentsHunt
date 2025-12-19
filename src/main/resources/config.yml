@@ -1,0 +1,79 @@
+# Выбор Режима (HALLOWEEN, CHRISTMAS, EASTER, CUSTOM)
+presentsMode: CHRISTMAS
+
+# Сколько подарков надо найти для получения награды
+totalPresents: 30
+
+# Команды для каждого найденного подарка и когда игрок находит все
+# В этих командах вы можете использовать переменные %player%, %found% и %total%.
+commands:
+  foundCommands: [ ]
+  rewardCommands:
+    - "give %player% diamond 10"
+
+# Музыка при взаимодействии с головой
+sounds:
+  found: "block.pumpkin.carve"
+  alreadyFound: "entity.zombie.ambient"
+  complete: "entity.firework_rocket.blast"
+
+# Эффекты при взаимодействии с головой
+particles:
+  found: "SWEEP_ATTACK"
+  alreadyFound: "SQUID_INK"
+
+# Текстуры голов для события
+heads:
+  HALLOWEEN: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWNjMTg0Y2VjNjNhOGMxNGJkNmQ1Zjg3OGEwOWNhYjg2MWM4ZWQwMzA2NGMzY2NlZjk5MTg2YmYzODBjNWQ2In19fQ=="
+  CHRISTMAS: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjBmMzM0YTlmMDU3NjA4YTQ3ZDM1MTVkOTZkYTA5YjUzYmJmYTM2YjdjYTM0MWI5NDgzY2Y1NzIwZGZiYjllOSJ9fX0="
+  EASTER: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjQzOGJlYWU2M2I3MDE0YmM5OWE1MmI3MGU4MWI5MWI0Y2FiNmQyMGFjNzRmOTYwNDExY2RmYmNkMzVhY2JmYyJ9fX0="
+  CUSTOM: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY0MThiNzRlZjdiN2IzMWFkYWYxNjVhMTMyNzg2YTgxMjMwM2Y3NGY0N2E4MzRhZGVjN2Y0ZjJmNjZmMWVjOSJ9fX0="
+
+# Плейсхолдеры - поддерживают только Legacy цвета
+placeholders:
+  status:
+    completed: "&aЗавершено 🎉"
+    inProgress: "&eВ процессе &7(&e%found%/&a%total%&7)"
+    notStarted: "&cНе начато"
+  top:
+    status: "&9%position%. &e%username% - %status%"
+    noPlayer: "&7---"
+
+prefix: "<red><bold>🎁</bold> <gray>» <green>"
+
+# Сообщения - поддерживают только MiniMessages формат
+messages:
+  needPermission: "<red>У вас нет разрешения!"
+  # Сообщения когда игрок взаимодействует с подарком
+  alreadyCompleted: "<yellow>Вы уже получили награду за это событие!"
+  alreadyFound: "<yellow>Вы уже нашли этот предмет! <gray>(<yellow>%found%</yellow>/<green>%total%</green>)"
+  found: "<green>Вы нашли подарок! <gray>(<yellow>%found%</yellow>/<green>%total%</green>)"
+  complete: "<gold>🎉 ПОЗДРАВЛЯЕМ! Вы нашли все %total% предметов!"
+  foundAllPresents: "<red>🎁 <yellow>%player% <white>нашёл все <green>%total% <white>подарков и получил награду!"
+  presentPlaced: "<green>Подарок успешно размещён!"
+  cannotBreak: "<red>Вы не можете ломать подарки!"
+  # Сообщения команд
+  commands:
+    usage: "<red>Использование: /presentshunt <give|stats|reload|version|locate|cleanup|resetplayer|resetall>"
+    playersOnly: "<red>Эта команда только для игроков!"
+    presentGiven: "<green>Вам выдана голова для режима %mode%!"
+    stats: |
+      <gold>PresentsHunt - Статистика
+      <red>Завершили: <gold>%completed% игроков (%percentage%%)
+      <red>Всего игроков приняло участие: <gold>%total%
+    reload: "<green>PresentsHunt был перезагружен!"
+    version: "<green>Вы используете PresentsHunt версии %version%"
+    invalidRadius: "<red>Радиус должен быть числом больше 0!"
+    locate:
+      noneFound: "<yellow>В радиусе %radius% не найдено подарков."
+      found: "<green>Найдено %count% подарков в радиусе %radius%: <newline> %locations%"
+      location: "<gray>%index%. <yellow>[%x%, %y%, %z%]"
+      hoverText: "<green>Нажми для телепортации!"
+    cleanup-success: "<green>Удалено %removed% подарков в радиусе %radius%"
+    resetPlayer:
+      usage: "<red>Использование: /presentshunt resetplayer <игрок>"
+      success: "<green>Данные игрока %player% успешно сброшены!"
+      failed: "<red>Не удалось сбросить данные игрока %player%"
+    resetAll:
+      success: "<green>Данные всех игроков успешно сброшены!"
+      failed: "<red>Не удалось сбросить данные всех игроков"

@@ -1,0 +1,22 @@
+name: PresentsHunt
+version: 1.0.0
+main: com.flyaway.presentshunt.PresentsHunt
+api-version: 1.21
+authors:
+  - FlyAwayMaking
+website: https://github.com/flyawaymaking
+description: Hunt for presents during holidays!
+
+permissions:
+  presentshunt.admin:
+    description: Access to admin commands
+    default: op
+  presentshunt.use:
+    description: Use presents hunt
+    default: true
+
+commands:
+  presentshunt:
+    description: Main command for PresentsHunt
+    usage: /<command> <subcommand>
+    aliases: [phunt]
