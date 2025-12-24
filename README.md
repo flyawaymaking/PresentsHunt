@@ -37,10 +37,14 @@ presentsMode: CHRISTMAS
 totalPresents: 30
 
 # Команды для каждого найденного подарка и когда игрок находит все
+# В этих командах вы можете использовать переменные %player%, %found% и %total%.
 commands:
   foundCommands: [ ]
   rewardCommands:
     - "give %player% diamond 10"
+
+leaderboard:
+  maxPlayersCount: 100 # Сколько игроков будет храниться в таблице лидеров для отображения позиции в топе
 
 # Музыка при взаимодействии с головой
 sounds:
