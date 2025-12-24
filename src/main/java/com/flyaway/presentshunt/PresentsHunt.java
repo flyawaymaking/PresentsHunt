@@ -93,6 +93,10 @@ public final class PresentsHunt extends JavaPlugin {
         return config.getString("placeholders." + key, "<red>not found: placeholders." + key);
     }
 
+    public int getMaxLeaderBoardPlayers() {
+        return config.getInt("leaderboard.maxPlayersCount", 100);
+    }
+
     public PresentMode getPresentsMode() {
         return presentMode;
     }

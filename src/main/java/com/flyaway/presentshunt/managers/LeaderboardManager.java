@@ -14,7 +14,6 @@ public class LeaderboardManager {
     private final PresentsHunt plugin;
     private final File leaderboardFile;
     private final Map<UUID, PlayerRecord> leaderboard;
-    private static final int MAX_ENTRIES = 10;
 
     public LeaderboardManager(PresentsHunt plugin) {
         this.plugin = plugin;
@@ -82,7 +81,8 @@ public class LeaderboardManager {
     }
 
     private void maintainLeaderboard() {
-        if (leaderboard.size() <= MAX_ENTRIES) {
+        int maxLimit = plugin.getMaxLeaderBoardPlayers();
+        if (leaderboard.size() <= maxLimit) {
             return;
         }
 
@@ -98,7 +98,7 @@ public class LeaderboardManager {
         });
 
         leaderboard.clear();
-        int count = Math.min(MAX_ENTRIES, sorted.size());
+        int count = Math.min(maxLimit, sorted.size());
         for (int i = 0; i < count; i++) {
             Map.Entry<UUID, PlayerRecord> entry = sorted.get(i);
             leaderboard.put(entry.getKey(), entry.getValue());
@@ -106,7 +106,11 @@ public class LeaderboardManager {
     }
 
     public Map<UUID, PlayerRecord> getTopPlayers(int limit) {
-        limit = Math.min(limit, MAX_ENTRIES);
+        int maxLimit = plugin.getMaxLeaderBoardPlayers();
+        if (limit < 0) {
+            limit = maxLimit;
+        }
+        limit = Math.min(limit, maxLimit);
 
         return leaderboard.entrySet().stream()
                 .sorted((entry1, entry2) -> {

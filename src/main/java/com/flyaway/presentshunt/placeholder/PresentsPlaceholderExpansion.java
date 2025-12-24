@@ -126,7 +126,7 @@ public class PresentsPlaceholderExpansion extends PlaceholderExpansion {
     }
 
     private String getLeaderboardPosition(OfflinePlayer player) {
-        Map<UUID, LeaderboardManager.PlayerRecord> topPlayers = leaderboardManager.getTopPlayers(100);
+        Map<UUID, LeaderboardManager.PlayerRecord> topPlayers = leaderboardManager.getTopPlayers(-1);
         int position = 1;
 
         for (LeaderboardManager.PlayerRecord record : topPlayers.values()) {

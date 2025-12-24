@@ -11,6 +11,9 @@ commands:
   rewardCommands:
     - "give %player% diamond 10"
 
+leaderboard:
+  maxPlayersCount: 100 # Сколько игроков будет храниться в таблице лидеров для отображения позиции в топе
+
 # Музыка при взаимодействии с головой
 sounds:
   found: "block.pumpkin.carve"
