@@ -37,6 +37,7 @@ public final class PresentsHunt extends JavaPlugin {
     public void reload() {
         reloadConfig();
         config = getConfig();
+        presentMode = PresentMode.valueOf(config.getString("presentsMode", "CHRISTMAS"));
     }
 
     public void sendMessage(CommandSender sender, String message) {
