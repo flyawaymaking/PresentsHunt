@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -227,7 +228,7 @@ public class PresentsManager {
         return present;
     }
 
-    public boolean markBlockAsPresent(Block block) {
+    public boolean markBlockAsPresent(Block block, ItemStack item) {
         Material type = block.getType();
         if (type != Material.PLAYER_HEAD && type != Material.PLAYER_WALL_HEAD) {
             return false;
@@ -237,8 +238,21 @@ public class PresentsManager {
             return false;
         }
 
+        ItemMeta meta = item.getItemMeta();
+        if (!(meta instanceof SkullMeta skullMeta)) {
+            return false;
+        }
+
+        PersistentDataContainer itemData = skullMeta.getPersistentDataContainer();
+        String mode = itemData.get(presentKey, PersistentDataType.STRING);
+
+        if (mode == null) {
+            return false;
+        }
+
         PersistentDataContainer blockData = tileState.getPersistentDataContainer();
-        blockData.set(presentKey, PersistentDataType.STRING, plugin.getPresentsMode().name());
+        blockData.set(presentKey, PersistentDataType.STRING, mode);
+
         tileState.update();
         return true;
     }

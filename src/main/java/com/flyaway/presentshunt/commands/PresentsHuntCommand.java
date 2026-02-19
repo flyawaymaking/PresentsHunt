@@ -138,6 +138,7 @@ public class PresentsHuntCommand implements CommandExecutor, TabExecutor {
 
             if (presents.isEmpty()) {
                 plugin.sendMessage(player, plugin.getMessage("commands.locate.noneFound")
+                        .replace("%mode%", plugin.getPresentsMode().name())
                         .replace("%radius%", String.valueOf(finalRadius)));
                 return;
             }
@@ -177,6 +178,7 @@ public class PresentsHuntCommand implements CommandExecutor, TabExecutor {
             }
 
             String message = plugin.getMessage("commands.locate.found")
+                    .replace("%mode%", plugin.getPresentsMode().name())
                     .replace("%count%", String.valueOf(presents.size()))
                     .replace("%radius%", String.valueOf(finalRadius))
                     .replace("%locations%", locations.toString());
@@ -219,6 +221,7 @@ public class PresentsHuntCommand implements CommandExecutor, TabExecutor {
             }
 
             plugin.sendMessage(player, plugin.getMessage("commands.cleanup-success")
+                    .replace("%mode%", plugin.getPresentsMode().name())
                     .replace("%removed%", String.valueOf(removed))
                     .replace("%radius%", String.valueOf(finalRadius)));
         });

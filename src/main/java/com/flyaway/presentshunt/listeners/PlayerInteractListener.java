@@ -26,10 +26,12 @@ public class PlayerInteractListener implements Listener {
     public void onBlockPlace(BlockPlaceEvent event) {
         ItemStack item = event.getItemInHand();
 
-        if (presentsManager.isPresentItem(item)) {
-            if (presentsManager.markBlockAsPresent(event.getBlockPlaced())) {
-                plugin.sendMessage(event.getPlayer(), plugin.getMessage("presentPlaced"));
-            }
+        if (!presentsManager.isPresentItem(item)) {
+            return;
+        }
+
+        if (presentsManager.markBlockAsPresent(event.getBlockPlaced(), item)) {
+            plugin.sendMessage(event.getPlayer(), plugin.getMessage("presentPlaced"));
         }
     }
 
