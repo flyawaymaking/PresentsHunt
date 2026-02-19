@@ -8,8 +8,14 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 public final class PresentsHunt extends JavaPlugin {
     public PresentsManager presentsManager;
@@ -18,8 +24,7 @@ public final class PresentsHunt extends JavaPlugin {
     private FileConfiguration config;
 
     public void onEnable() {
-        saveDefaultConfig();
-        config = getConfig();
+        config = migrateMainConfig();
 
         presentsManager = new PresentsManager(this);
         presentMode = PresentMode.valueOf(config.getString("presentsMode", "CHRISTMAS"));
@@ -38,6 +43,44 @@ public final class PresentsHunt extends JavaPlugin {
         reloadConfig();
         config = getConfig();
         presentMode = PresentMode.valueOf(config.getString("presentsMode", "CHRISTMAS"));
+    }
+
+    public FileConfiguration migrateMainConfig() {
+        File configFile = new File(getDataFolder(), "config.yml");
+
+        if (!configFile.exists()) {
+            saveDefaultConfig();
+        }
+
+        FileConfiguration config = getConfig();
+
+        YamlConfiguration defaultConfig;
+        try (InputStreamReader reader = new InputStreamReader(
+                Objects.requireNonNull(getResource("config.yml")),
+                StandardCharsets.UTF_8
+        )) {
+            defaultConfig = YamlConfiguration.loadConfiguration(reader);
+        } catch (Exception e) {
+            getLogger().severe("Failed to load default config.yml");
+            return config;
+        }
+
+        int currentVersion = defaultConfig.getInt("version", 1);
+        int fileVersion = config.getInt("version", 0);
+
+        if (fileVersion < currentVersion) {
+
+            getLogger().info("Updating config.yml from version "
+                    + fileVersion + " to " + currentVersion);
+
+            config.setDefaults(defaultConfig);
+            config.options().copyDefaults(true);
+            config.set("version", currentVersion);
+
+            saveConfig();
+        }
+
+        return config;
     }
 
     public void sendMessage(CommandSender sender, String message) {
@@ -96,6 +139,12 @@ public final class PresentsHunt extends JavaPlugin {
 
     public int getMaxLeaderBoardPlayers() {
         return config.getInt("leaderboard.maxPlayersCount", 100);
+    }
+
+    public void setPresentMode(PresentMode mode) {
+        this.presentMode = mode;
+        config.set("presentsMode", mode.name());
+        saveConfig();
     }
 
     public PresentMode getPresentsMode() {

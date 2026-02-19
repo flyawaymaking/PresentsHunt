@@ -5,6 +5,7 @@ import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.Skull;
 import org.bukkit.block.TileState;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -202,6 +203,33 @@ public class PresentsManager {
             return true;
         }
         return false;
+    }
+
+    public boolean replacePresent(Block block, String fromMode) {
+        if (!(block.getState() instanceof TileState tileState)) {
+            return false;
+        }
+
+        PersistentDataContainer data = tileState.getPersistentDataContainer();
+        String mode = data.get(presentKey, PersistentDataType.STRING);
+
+        if (mode == null || !mode.equalsIgnoreCase(fromMode)) {
+            return false;
+        }
+
+        data.set(presentKey, PersistentDataType.STRING, plugin.getPresentsMode().name());
+        tileState.update();
+
+        if (block.getState() instanceof Skull skull) {
+            PlayerProfile profile = Bukkit.createProfile(UUID.randomUUID(), "Present");
+            String texture = plugin.getConfig().getString("heads." + plugin.getPresentsMode().name(), "");
+            ProfileProperty property = new ProfileProperty("textures", texture);
+            profile.setProperty(property);
+            skull.setPlayerProfile(profile);
+            skull.update();
+        }
+
+        return true;
     }
 
     public ItemStack getPresentSkull() {

@@ -1,5 +1,6 @@
 package com.flyaway.presentshunt.commands;
 
+import com.flyaway.presentshunt.PresentMode;
 import com.flyaway.presentshunt.PresentsHunt;
 import com.flyaway.presentshunt.managers.PresentsManager;
 import org.bukkit.Bukkit;
@@ -64,6 +65,13 @@ public class PresentsHuntCommand implements CommandExecutor, TabExecutor {
                 break;
             case "resetall":
                 handleResetAllCommand(sender);
+                break;
+            case "setmode":
+                handleSetModeCommand(sender, args);
+                break;
+
+            case "replace":
+                handleReplaceCommand(sender, args);
                 break;
             default:
                 sendUsage(sender);
@@ -276,6 +284,82 @@ public class PresentsHuntCommand implements CommandExecutor, TabExecutor {
         return presents;
     }
 
+    private void handleSetModeCommand(CommandSender sender, String[] args) {
+        if (args.length < 2) {
+            plugin.sendMessage(sender, plugin.getMessage("commands.setMode.usage"));
+            return;
+        }
+
+        try {
+            PresentMode newMode = PresentMode.valueOf(args[1].toUpperCase());
+
+            plugin.setPresentMode(newMode);
+
+            plugin.sendMessage(sender, plugin.getMessage("commands.setMode.success")
+                    .replace("%mode%", newMode.name()));
+        } catch (IllegalArgumentException e) {
+            plugin.sendMessage(sender, plugin.getMessage("commands.setMode.failed"));
+        }
+    }
+
+    private void handleReplaceCommand(CommandSender sender, String[] args) {
+        if (!(sender instanceof Player player)) {
+            plugin.sendMessage(sender, plugin.getMessage("commands.playersOnly"));
+            return;
+        }
+
+        if (args.length < 3) {
+            plugin.sendMessage(sender, plugin.getMessage("commands.replace.usage"));
+            return;
+        }
+
+        String fromMode = args[1].toUpperCase();
+
+        int radius;
+        try {
+            radius = Integer.parseInt(args[2]);
+            if (radius <= 0) {
+                plugin.sendMessage(sender, plugin.getMessage("commands.invalidRadius"));
+                return;
+            }
+        } catch (NumberFormatException e) {
+            plugin.sendMessage(sender, plugin.getMessage("commands.invalidRadius"));
+            return;
+        }
+
+        final int finalRadius = radius;
+
+        plugin.runTask(() -> {
+            int replaced = 0;
+
+            Location center = player.getLocation();
+
+            for (int x = -finalRadius; x <= finalRadius; x++) {
+                for (int y = -finalRadius; y <= finalRadius; y++) {
+                    for (int z = -finalRadius; z <= finalRadius; z++) {
+
+                        Block block = center.clone().add(x, y, z).getBlock();
+
+                        if (block.getType() != Material.PLAYER_HEAD &&
+                                block.getType() != Material.PLAYER_WALL_HEAD) {
+                            continue;
+                        }
+
+                        if (presentsManager.replacePresent(block, fromMode)) {
+                            replaced++;
+                        }
+                    }
+                }
+            }
+
+            plugin.sendMessage(player, plugin.getMessage("commands.replace.success")
+                    .replace("%replaced%", String.valueOf(replaced))
+                    .replace("%fromMode%", fromMode)
+                    .replace("%mode%", plugin.getPresentsMode().name())
+                    .replace("%radius%", String.valueOf(finalRadius)));
+        });
+    }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
                                                 @NotNull String alias, @NotNull String[] args) {
@@ -284,7 +368,8 @@ public class PresentsHuntCommand implements CommandExecutor, TabExecutor {
         }
 
         if (args.length == 1) {
-            return Stream.of("give", "stats", "reload", "version", "locate", "cleanup", "resetplayer", "resetall")
+            return Stream.of("give", "stats", "reload", "version", "locate", "cleanup", "resetplayer",
+                            "resetall", "setmode", "replace")
                     .filter(s -> s.startsWith(args[0].toLowerCase()))
                     .collect(Collectors.toList());
         }
@@ -292,12 +377,28 @@ public class PresentsHuntCommand implements CommandExecutor, TabExecutor {
         if (args.length == 2) {
             if (args[0].equalsIgnoreCase("locate") || args[0].equalsIgnoreCase("cleanup")) {
                 return Arrays.asList("50", "100", "150", "200");
-            } else if (args[0].equalsIgnoreCase("resetplayer")) {
+            }
+            if (args[0].equalsIgnoreCase("resetplayer")) {
                 return Bukkit.getOnlinePlayers().stream()
                         .map(Player::getName)
                         .filter(name -> name.toLowerCase().startsWith(args[1].toLowerCase()))
                         .collect(Collectors.toList());
             }
+            if (args[0].equalsIgnoreCase("setmode")) {
+                return Arrays.stream(PresentMode.values())
+                        .map(Enum::name)
+                        .filter(name -> name.startsWith(args[1].toUpperCase()))
+                        .collect(Collectors.toList());
+            }
+            if (args[0].equalsIgnoreCase("replace")) {
+                return Arrays.stream(PresentMode.values())
+                        .map(Enum::name)
+                        .filter(name -> name.startsWith(args[1].toUpperCase()))
+                        .collect(Collectors.toList());
+            }
+        }
+        if (args.length == 3 && args[0].equalsIgnoreCase("replace")) {
+            return Arrays.asList("50", "100", "150", "200");
         }
 
         return Collections.emptyList();
