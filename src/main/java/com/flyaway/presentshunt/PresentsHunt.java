@@ -142,6 +142,8 @@ public final class PresentsHunt extends JavaPlugin {
     }
 
     public void setPresentMode(PresentMode mode) {
+        reloadConfig();
+        config = getConfig();
         this.presentMode = mode;
         config.set("presentsMode", mode.name());
         saveConfig();

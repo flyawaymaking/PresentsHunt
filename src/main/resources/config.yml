@@ -59,7 +59,7 @@ messages:
   cannotBreak: "<red>Вы не можете ломать предметы события!"
   # Сообщения команд
   commands:
-    usage: "<red>Использование: /presentshunt <give|stats|reload|version|locate|cleanup|resetplayer|resetall>"
+    usage: "<red>Использование: /presentshunt <give|stats|reload|version|locate|cleanup|resetplayer|resetall|setmode|replace>"
     playersOnly: "<red>Эта команда только для игроков!"
     presentGiven: "<green>Вам выдан предмет события %mode%!"
     stats: |
