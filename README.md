@@ -31,7 +31,7 @@
 
 ```yaml
 # Выбор Режима (HALLOWEEN, CHRISTMAS, EASTER, CUSTOM)
-presentsMode: CHRISTMAS
+presentsMode: EASTER
 
 # Сколько предметов события надо найти для получения награды
 totalPresents: 30

@@ -2,7 +2,7 @@
 version: 1
 
 # Выбор Режима (HALLOWEEN, CHRISTMAS, EASTER, CUSTOM)
-presentsMode: CUSTOM
+presentsMode: EASTER
 
 # Сколько предметов события надо найти для получения награды
 totalPresents: 30
