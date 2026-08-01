@@ -1,135 +1,137 @@
-# 🎁 PresentsHunt - Охота за подарками
+# 🎁 PresentsHunt - Gift Hunt
 
-Плагин для Minecraft серверов на Paper, который добавляет увлекательную охоту за подарками (предметами события) с разными тематическими режимами. Игроки ищут спрятанные головы (предметы события) по всему миру и получают награды за их сбор.
+A Minecraft Paper server plugin that adds an exciting gift hunt (event items) with various themed modes. Players search for hidden heads (event items) across the world and earn rewards for collecting them.
 
-## 🧩 Совместимость с версиями
+* Русский перевод конфига расположен [ЗДЕСЬ](/src/main/resources/ru_config.yml)
 
-| **Версия плагина** | **Поддерживаемые Paper** | **Java** |
-|--------------------|--------------------------|----------|
-| `1.3.0`            | `1.20.1` – `26.2`        | 25       |
-| `1.2.1`            | `1.20.1` – `1.21.11`     | 21       |
+## 🧩 Version Compatibility
 
-## ✨ Возможности
+| **Plugin Version** | **Supported Paper**  | **Java** |
+|--------------------|----------------------|----------|
+| `1.3.0`            | `1.20.1` – `26.2`    | 25       |
+| `1.2.1`            | `1.20.1` – `1.21.11` | 21       |
 
-- 🎄 **Тематические режимы**: Рождество, Хэллоуин, Пасха и кастомный режим
-- 🏆 **Система достижений**: Игроки собирают предметы события для получения наград
-- 📊 **Leaderboard**: Рейтинг игроков с интеграцией PlaceholderAPI
-- 🎯 **Административные инструменты**: Легкое управление и очистка предметов события (без необходимости запоминать точное место)
-- 🔊 **Эффекты**: Частицы и звуки при взаимодействии с предметами события
-- 📝 **Конфигурируемые сообщения**: Поддержка MiniMessage формата
-- 🔧 **API интеграция**: Поддержка PlaceholderAPI для интеграции с другими плагинами
+## ✨ Features
 
-## 📥 Установка
+- 🎄 **Themed Modes**: Christmas, Halloween, Easter, and Custom mode
+- 🏆 **Achievement System**: Players collect event items to earn rewards
+- 📊 **Leaderboard**: Player rankings with PlaceholderAPI integration
+- 🎯 **Admin Tools**: Easy management and cleanup of event items (no need to remember exact locations)
+- 🔊 **Effects**: Particles and sounds when interacting with event items
+- 📝 **Configurable Messages**: MiniMessage format support
+- 🔧 **API Integration**: PlaceholderAPI support for integration with other plugins
 
-1. Скачайте последнюю версию плагина с [Releases](../../releases)
-2. Поместите файл `PresentsHunt.jar` в папку `plugins/`
-3. Перезапустите сервер
-4. Настройте конфигурационный файл `plugins/PresentsHunt/config.yml` и примените изменения командой `/presentshunt reload`
-5. Используйте команду `/presentshunt give` чтобы получить голову события
+## 📥 Installation
 
-## ⚙️ Конфигурация
+1. Download the latest version of the plugin from [Releases](../../releases)
+2. Place the `PresentsHunt.jar` file into the `plugins/` folder
+3. Restart the server
+4. Configure the `plugins/PresentsHunt/config.yml` file and apply changes with `/presentshunt reload`
+5. Use the `/presentshunt give` command to obtain an event head
 
-Основные настройки в `config.yml`:
+## ⚙️ Configuration
+
+Main settings in `config.yml`:
 
 ```yaml
-# Выбор Режима (HALLOWEEN, CHRISTMAS, EASTER, CUSTOM)
+# Mode Selection (HALLOWEEN, CHRISTMAS, EASTER, CUSTOM)
 presentsMode: CHRISTMAS
 
-# Сколько предметов события надо найти для получения награды
+# How many event items need to be found to receive a reward
 totalPresents: 30
 
-# Команды для каждого найденного предмета события и когда игрок находит все
-# В этих командах вы можете использовать переменные %player%, %found% и %total%.
+# Commands for each found event item and when the player finds all
+# You can use %player%, %found%, and %total% placeholders in these commands
 commands:
   foundCommands: [ ]
   rewardCommands:
     - "give %player% diamond 10"
 
 leaderboard:
-  maxPlayersCount: 100 # Сколько игроков будет храниться в таблице лидеров для отображения позиции в топе
+  maxPlayersCount: 100 # Number of players stored in the leaderboard for position display
 
-# Музыка при взаимодействии с головой
+# Music when interacting with a head
 sounds:
   found: "block.pumpkin.carve"
   alreadyFound: "entity.zombie.ambient"
   complete: "entity.firework_rocket.blast"
 
-# Эффекты при взаимодействии с головой
+# Effects when interacting with a head
 particles:
   found: "SWEEP_ATTACK"
   alreadyFound: "SQUID_INK"
 ```
 
-### Текстуры голов
-Доступны предустановленные текстуры для каждого режима:
-- **CHRISTMAS**: Новогодний подарок
-- **HALLOWEEN**: Тыква на Хэллоуин
-- **EASTER**: Пасхальное яйцо
-- **CUSTOM**: Кастомная голова (настройте свою текстуру)
+### Head Textures
+Preset textures are available for each mode:
+- **CHRISTMAS**: Christmas gift
+- **HALLOWEEN**: Halloween pumpkin
+- **EASTER**: Easter egg
+- **CUSTOM**: Custom head (configure your own texture)
 
-## 🎮 Использование
+## 🎮 Usage
 
-### Для игроков
-1. Найдите спрятанные предметы события в мире
-2. Нажмите ПКМ по голове, чтобы собрать её
-3. Собирайте предметы события для получения наград
-4. Используйте `/presentshunt stats` для просмотра статистики
+### For Players
+1. Find hidden event items throughout the world
+2. Right-click a head to collect it
+3. Collect event items to earn rewards
+4. Use `/presentshunt stats` to view your statistics
 
-### Для администраторов
+### For Administrators
 ```
-/presentshunt give - Получить голову (предмет события)
-/presentshunt stats - Показать статистику плагина
-/presentshunt reload - Перезагрузить конфигурацию
-/presentshunt locate [радиус] - Найти предметы события в радиусе
-/presentshunt cleanup [радиус] - Удалить предметы события в радиусе
-/presentshunt resetplayer <игрок> - Сбросить данные игрока
-/presentshunt resetall - Сбросить данные всех игроков
-/presentshunt setmode [режим] - Установить новый режим события
-/presentshunt replace [режим] [радиус] - Заменить все предметы выбранного события на текущее в радиусе
+/presentshunt give - Get a head (event item)
+/presentshunt stats - Display plugin statistics
+/presentshunt reload - Reload the configuration
+/presentshunt locate [radius] - Find event items within the radius
+/presentshunt cleanup [radius] - Remove event items within the radius
+/presentshunt resetplayer <player> - Reset a player's data
+/presentshunt resetall - Reset all players' data
+/presentshunt setmode [mode] - Set a new event mode
+/presentshunt replace [mode] [radius] - Replace all event items of the selected mode with the current one within the radius
 ```
 
-### Размещение предметов события
-1. Получите голову командой `/presentshunt give`
-2. Установите голову в любом месте мира
-3. Голова автоматически помечается как предмет события для сбора
+### Placing Event Items
+1. Obtain a head using the `/presentshunt give` command
+2. Place the head anywhere in the world
+3. The head is automatically marked as an event item for collection
 
 ## 📊 PlaceholderAPI
 
-Плагин поддерживает PlaceholderAPI со следующими плейсхолдерами:
+The plugin supports PlaceholderAPI with the following placeholders:
 
 ```
-%presentshunt_found% - Количество найденных предметов события
-%presentshunt_total% - Общее количество предметов события
-%presentshunt_mode% - Текущий режим охоты
-%presentshunt_completed% - Количество игроков, завершивших охоту
-%presentshunt_players% - Количество игроков с данными
-%presentshunt_position% - Позиция в рейтинге
-%presentshunt_status% - Статус выполнения (Завершено/В процессе/Не начато)
-%presentshunt_top_1_status% - Статус игрока на 1 месте
-%presentshunt_top_2_status% - Статус игрока на 2 месте
-... и так до 10 места
+%presentshunt_found% - Number of event items found
+%presentshunt_total% - Total number of event items
+%presentshunt_mode% - Current hunt mode
+%presentshunt_completed% - Number of players who completed the hunt
+%presentshunt_players% - Number of players with data
+%presentshunt_position% - Position in the leaderboard
+%presentshunt_status% - Completion status (Completed/In progress/Not started)
+%presentshunt_top_1_status% - Status of the player in 1st place
+%presentshunt_top_2_status% - Status of the player in 2nd place
+... and so on up to 10th place
 ```
 
-## 🔧 Разрешения
+## 🔧 Permissions
 
 ```
-presentshunt.use - Сбор предметов события (по умолчанию: true)
-presentshunt.admin - Административные команды (по умолчанию: op)
+presentshunt.use - Collect event items (default: true)
+presentshunt.admin - Administrative commands (default: op)
 ```
 
-## 🐛 Баги и предложения
+## 🐛 Bugs and Suggestions
 
-Нашли баг или есть предложение по улучшению? Создайте [Issue](../../issues) на GitHub.
+Found a bug or have a suggestion for improvement? Create an [Issue](../../issues) on GitHub.
 
-## 🤝 Вклад в разработку
+## 🤝 Contributing
 
-Хотите помочь с развитием плагина?
-1. Форкните репозиторий
-2. Создайте ветку для вашей фичи (`git checkout -b feature/amazing-feature`)
-3. Закоммитьте изменения (`git commit -m 'Add amazing feature'`)
-4. Запушьте в ветку (`git push origin feature/amazing-feature`)
-5. Откройте Pull Request
+Want to help with plugin development?
+1. Fork the repository
+2. Create a branch for your feature (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## 📄 Лицензия
+## 📄 License
 
-Этот проект лицензирован под MIT License - смотрите файл [LICENSE](LICENSE) для деталей.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
