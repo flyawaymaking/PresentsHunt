@@ -8,7 +8,7 @@ A Minecraft Paper server plugin that adds an exciting gift hunt (event items) wi
 
 | **Plugin Version** | **Supported Paper**  | **Java** |
 |--------------------|----------------------|----------|
-| `1.3.0`            | `1.20.1` – `26.2`    | 25       |
+| `1.3.0+`           | `1.20.1` – `26.3`    | 25       |
 | `1.2.1`            | `1.20.1` – `1.21.11` | 21       |
 
 ## ✨ Features
