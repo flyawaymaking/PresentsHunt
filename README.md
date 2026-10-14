@@ -1,5 +1,8 @@
 # 🎁 PresentsHunt - Gift Hunt
 
+[![Modrinth Downloads](https://img.shields.io/modrinth/dt/presentshunt?logo=modrinth&label=downloads&color=1bd96a)](https://modrinth.com/plugin/presentshunt)
+[![Modrinth Followers](https://img.shields.io/modrinth/followers/presentshunt?logo=modrinth&label=followers&color=1bd96a)](https://modrinth.com/plugin/presentshunt)
+
 A Minecraft Paper server plugin that adds an exciting gift hunt (event items) with various themed modes. Players search for hidden heads (event items) across the world and earn rewards for collecting them.
 
 * Русский перевод конфига расположен [ЗДЕСЬ](/src/main/resources/ru_config.yml)
